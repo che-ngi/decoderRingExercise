@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>In-Class Exercise 01</title>
+</head>
+<script>
+function decoderRing(rotation) {
+  const obj = {
+    encodeMap: {},
+    decodeMap: {}
+  };
+
+  // (1) Initialize encodeMap & (2) decodeMap
+  for (let i = 0; i < 26; i++) {
+    obj.encodeMap[String.fromCharCode(i + 97)] = String.fromCharCode(((i + rotation) % 26) + 97);
+    obj.decodeMap[String.fromCharCode(((i + rotation) % 26) + 97)] = String.fromCharCode(i + 97);
+  }
+
+  // (2) Write functions for
+  // (2.1) encode
+  obj.encode = function(str) {
+    let xs = str.split('').map((ch) => {
+        if (ch in obj.encodeMap) {
+            return obj.encodeMap[ch];
+        } else {
+            return ch;
+        }
+    })
+    return xs.join('');
+  }
+
+  // (2.2) decode
+  obj.decode = function(str) {
+    let xs = str.split('').map((ch) => {
+        if (ch in obj.decodeMap) {
+            return obj.decodeMap[ch];
+        } else {
+            return ch;
+        }
+    })
+    return xs.join('');
+  }
+
+  return obj;
+}
+
+let testObj = decoderRing('2');
+let testObj2 = decoderRing('3');
+
+console.assert(testObj.encode('hello world') === 'jgnnq yqtnf');
+console.assert(testObj.decode('jgnnq yqtnf') === 'hello world');
+console.assert(testObj.encode('testing') === 'whvwlqj');
+
+</script>
+</html>
